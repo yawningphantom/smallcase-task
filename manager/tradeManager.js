@@ -113,7 +113,6 @@ const deleteTrade = async (id) => {
 // Util Function to update the portfolio
 const updatePortfolio = async (portfolioSecurity, shares, sharePrice, type) => {
 
-	console.log(shares, sharePrice, type)
 	let initialPrice = portfolioSecurity.avgBuyPrice;
 	let initialShares = portfolioSecurity.shares;
 

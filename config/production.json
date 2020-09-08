@@ -1,5 +1,5 @@
 {
 	"db": {
-		"url": "mongodb://localhost:27017/small-case"
+		"url": "mongodb+srv://test:test123@cluster0.edwmi.mongodb.net/smallcase?retryWrites=true&w=majority"
 	}
 }
