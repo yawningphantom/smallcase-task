@@ -53,6 +53,7 @@ const getTrade = async () => {
  */
 
 const updateTradeById = async (id, sharePrice, shares) => {
+	console.log(id, sharePrice, shares)
 
 	try {
 
@@ -64,12 +65,8 @@ const updateTradeById = async (id, sharePrice, shares) => {
 			return { message: "Trade Not Found " };
 		}
 
-		// update the sharePrice and shares
-		existingTrade.sharePrice = sharePrice;
-		existingTrade.shares = shares;
-
 		// get the portfolio
-		let portfolioSecurity = await db.portfolio.findOne({ tickerSymbol: deletedTrade.tickerSymbol });
+		let portfolioSecurity = await db.portfolio.findOne({ tickerSymbol: existingTrade.tickerSymbol });
 
 		// remove the shares
 		await updatePortfolio(portfolioSecurity, existingTrade.shares, existingTrade.sharePrice, !existingTrade.type);
@@ -77,13 +74,17 @@ const updateTradeById = async (id, sharePrice, shares) => {
 		// add the shares
 		await updatePortfolio(portfolioSecurity, shares, sharePrice, existingTrade.type);
 
+		// update the sharePrice and shares
+		existingTrade.sharePrice = sharePrice;
+		existingTrade.shares = shares;
 
 		// save the changes
 		existingTrade.save();
+		return existingTrade;
 
 	} catch (err) {
 		console.log(err);
-		res.sendServerError();
+		return err
 	}
 };
 
@@ -112,6 +113,7 @@ const deleteTrade = async (id) => {
 // Util Function to update the portfolio
 const updatePortfolio = async (portfolioSecurity, shares, sharePrice, type) => {
 
+	console.log(shares, sharePrice, type)
 	let initialPrice = portfolioSecurity.avgBuyPrice;
 	let initialShares = portfolioSecurity.shares;
 

@@ -7,6 +7,7 @@ const httpStatus = require('http-status');
 module.exports = {
 	validate: schema => (req, res, next) => {
 		try {
+			if(req.params.tickerSymbol)
 			req.body.tickerSymbol = req.params.tickerSymbol;
 			const result = schema.validate(req.body);
 			if (result.error) {

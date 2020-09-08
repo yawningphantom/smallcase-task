@@ -44,12 +44,14 @@ module.exports = (app) => {
 		, validate(schema.updateTrade)
 		, (req, res, next) => {
 
+			const { id } = req.params;
 			const { sharePrice, shares } = req.body;
 			manager.trade.updateTradeById(id, sharePrice, shares)
 				.then((data) => {
 					res.send({ data, error: null })
 				})
 				.catch((error) => {
+					console.log(error)
 					res
 						.status(httpStatus.INTERNAL_SERVER_ERROR)
 						.send({ data: null, error })
